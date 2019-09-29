@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     QImage image;
+    QPixmap pix;
     QNetworkAccessManager manager;
     QNetworkReply *response = manager.get(QNetworkRequest(QUrl("https://avatars.mds.yandex.net/get-mpic/1767151/img_id7419673329120599287.jpeg/9hq")));
     QEventLoop event;
@@ -21,7 +22,13 @@ MainWindow::MainWindow(QWidget *parent)
     {
         qDebug() << "QByteArray to QImage: Response finished";
         qba = response->readAll();
-        image.fromData(qba, "webp");
+
+
+
+        image.fromData(qba, "jpeg");
+
+
+        pix.loadFromData(qba);
         //image.loadFromData(qba, "webp");
     }
     else
@@ -29,6 +36,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     ui->label->setPixmap(QPixmap::fromImage(image));
+    ui->label_2->setPixmap(pix.scaled(300, 300));
+
 }
 
 MainWindow::~MainWindow()
